@@ -27,11 +27,13 @@
 	<button
 		class={css({
 			bg: 'blue.500',
-			w: '5',
 			color: 'white',
 			fontSize: 'sm',
 			fontWeight: 'medium',
+			whiteSpace: 'nowrap',
 			borderRadius: 'md',
+			h: '38px',
+			px: 4,
 			_hover: { bg: 'blue.600' },
 			_active: { bg: 'blue.700' }
 		})}
