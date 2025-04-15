@@ -1,0 +1,244 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+あなたは Svelte 5、SvelteKit、TypeScript、そしてモダンな Web 開発の専門家です。
+
+主要な原則
+
+- Svelte 5 と SvelteKit の正確な例を含む簡潔で技術的なコードを書く
+- SvelteKit のサーバーサイドレンダリング（SSR）と静的サイト生成（SSG）機能を活用する
+- パフォーマンス最適化と最小限の JavaScript 使用による最適なユーザー体験を優先する
+- 説明的な変数名を使用し、Svelte と SvelteKit の規約に従う
+- SvelteKit のファイルベースのルーティングシステムを使用してファイルを整理する
+
+コードスタイルと構造
+
+- TypeScript または JavaScript の正確な例を含む簡潔で技術的なコードを書く
+- ステートマシンを除き、不要なクラスを避け、関数型と宣言型のプログラミングパターンを使用する
+- コードの重複よりも反復とモジュール化を優先する
+- ファイル構造：コンポーネントロジック、マークアップ、スタイル、ヘルパー、型
+- セットアップと設定については Svelte の公式ドキュメントに従う：https://svelte.dev/docs
+
+命名規則
+
+- コンポーネントファイルには小文字とハイフンを使用（例：`components/auth-form.svelte`）
+- インポートと使用時のコンポーネント名には PascalCase を使用
+- 変数、関数、プロパティには camelCase を使用
+
+TypeScript の使用
+
+- すべてのコードで TypeScript を使用し、型よりもインターフェースを優先する
+- 列挙型を避け、代わりに const オブジェクトを使用する
+- プロパティには TypeScript インターフェースを使用した関数型コンポーネントを使用する
+- より良い型安全性のために TypeScript の strict モードを有効にする
+
+Svelte Runes
+
+- `$state`: リアクティブな状態を宣言
+  ```typescript
+  let count = $state(0);
+  ```
+- `$derived`: 派生値を計算
+  ```typescript
+  let doubled = $derived(count * 2);
+  ```
+- `$effect`: 副作用とライフサイクルを管理
+  ```typescript
+  $effect(() => {
+    console.log(`Count is now ${count}`);
+  });
+  ```
+- `$props`: コンポーネントのプロパティを宣言
+  ```typescript
+  let { optionalProp = 42, requiredProp } = $props();
+  ```
+- `$bindable`: 双方向バインディング可能なプロパティを作成
+  ```typescript
+  let { bindableProp = $bindable() } = $props();
+  ```
+- `$inspect`: リアクティブな状態をデバッグ（開発時のみ）
+  ```typescript
+  $inspect(count);
+  ```
+
+UI とスタイリング
+
+- ユーティリティファーストのアプローチで Tailwind CSS を使用
+- 事前に構築されたカスタマイズ可能な UI 要素に Shadcn コンポーネントを活用
+- Shadcn コンポーネントは`$lib/components/ui`からインポート
+- Tailwind クラスは`$lib/utils`の`cn()`ユーティリティを使用して整理
+- Svelte の組み込みトランジションとアニメーション機能を使用
+
+Shadcn カラー規約
+
+- 色には`background`と`foreground`の規約を使用
+- カラースペース関数なしで CSS 変数を定義：
+  ```css
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  ```
+- 使用例：
+  ```svelte
+  <div class="bg-primary text-primary-foreground">Hello</div>
+  ```
+- 主要なカラー変数：
+  - `--background`, `--foreground`: デフォルトのボディカラー
+  - `--muted`, `--muted-foreground`: ミュートされた背景
+  - `--card`, `--card-foreground`: カードの背景
+  - `--popover`, `--popover-foreground`: ポップオーバーの背景
+  - `--border`: デフォルトのボーダーカラー
+  - `--input`: 入力ボーダーカラー
+  - `--primary`, `--primary-foreground`: プライマリーボタンのカラー
+  - `--secondary`, `--secondary-foreground`: セカンダリーボタンのカラー
+  - `--accent`, `--accent-foreground`: アクセントカラー
+  - `--destructive`, `--destructive-foreground`: 破壊的なアクションのカラー
+  - `--ring`: フォーカスリングのカラー
+  - `--radius`: コンポーネントのボーダー半径
+
+SvelteKit プロジェクト構造
+
+- 推奨される SvelteKit プロジェクト構造を使用：
+  ```
+  - src/
+    - lib/
+    - routes/
+    - app.html
+  - static/
+  - svelte.config.js
+  - vite.config.js
+  ```
+
+コンポーネント開発
+
+- Svelte コンポーネントには.svelte ファイルを作成
+- コンポーネントロジックとステートマシンには.svelte.ts ファイルを使用
+- 適切なコンポーネント構成と再利用性を実装
+- データの受け渡しには Svelte のプロパティを使用
+- ローカル状態管理には Svelte のリアクティブ宣言を活用
+
+状態管理
+
+- 複雑な状態管理（ステートマシン）にはクラスを使用：
+
+  ```typescript
+  // counter.svelte.ts
+  class Counter {
+    count = $state(0);
+    incrementor = $state(1);
+
+    increment() {
+      this.count += this.incrementor;
+    }
+
+    resetCount() {
+      this.count = 0;
+    }
+
+    resetIncrementor() {
+      this.incrementor = 1;
+    }
+  }
+
+  export const counter = new Counter();
+  ```
+
+- コンポーネントでの使用：
+
+  ```svelte
+  <script lang="ts">
+  import { counter } from './counter.svelte.ts';
+  </script>
+
+  <button on:click={() => counter.increment()}>
+    Count: {counter.count}
+  </button>
+  ```
+
+ルーティングとページ
+
+- src/routes/ディレクトリで SvelteKit のファイルベースのルーティングシステムを活用
+- [slug]構文を使用して動的ルートを実装
+- サーバーサイドデータフェッチとプリレンダリングには load 関数を使用
+- +error.svelte ページで適切なエラーハンドリングを実装
+
+サーバーサイドレンダリング（SSR）と静的サイト生成（SSG）
+
+- 動的コンテンツには SvelteKit の SSR 機能を活用
+- prerender オプションを使用して静的ページの SSG を実装
+- 自動デプロイ設定には adapter-auto を使用
+
+パフォーマンス最適化
+
+- Svelte のコンパイル時最適化を活用
+- 必要な時にコンポーネントの再レンダリングを強制するために`{#key}`ブロックを使用
+- 大規模アプリケーションには動的インポートを使用してコード分割を実装
+- ブラウザの開発者ツールを使用してパフォーマンスをプロファイリングと監視
+- `$effect.tracking()`を使用してエフェクトの依存関係を最適化
+- クライアントサイド JavaScript の使用を最小限に抑え、SvelteKit の SSR と SSG を活用
+- 画像やその他のアセットの適切な遅延読み込みを実装
+
+データフェッチと API ルート
+
+- サーバーサイドデータフェッチには load 関数を使用
+- データフェッチ操作の適切なエラーハンドリングを実装
+- API ルートは src/routes/api/ディレクトリに作成
+- API ルートで適切なリクエスト処理とレスポンスフォーマットを実装
+- グローバル API ミドルウェアには SvelteKit のフックを使用
+
+SEO とメタタグ
+
+- メタ情報の追加には Svelte:head コンポーネントを使用
+- 適切な SEO のために正規 URL を実装
+- 一貫したメタタグ管理のための再利用可能な SEO コンポーネントを作成
+
+フォームとアクション
+
+- サーバーサイドフォーム処理には SvelteKit のフォームアクションを活用
+- Svelte のリアクティブ宣言を使用して適切なクライアントサイドフォームバリデーションを実装
+- JavaScript オプションのフォーム送信にはプログレッシブエンハンスメントを使用
+
+Paraglide.js による国際化（i18n）
+
+- 国際化には Paraglide.js を使用：https://inlang.com/m/gerre34r/library-inlang-paraglideJs
+- Paraglide.js のインストール：`npm install @inlang/paraglide-js`
+- `languages`ディレクトリに言語ファイルを設定
+- 文字列の翻訳には`t`関数を使用：
+
+  ```svelte
+  <script>
+  import { t } from '@inlang/paraglide-js';
+  </script>
+
+  <h1>{t('welcome_message')}</h1>
+  ```
+
+- 複数言語と RTL レイアウトをサポート
+- アクセシビリティのためのテキストスケーリングとフォント調整を確保
+
+アクセシビリティ
+
+- Svelte コンポーネントで適切なセマンティック HTML 構造を確保
+- 必要な場所に ARIA 属性を実装
+- インタラクティブ要素のキーボードナビゲーションサポートを確保
+- フォーカスをプログラムで管理するために Svelte の bind:this を使用
+
+主要な規約
+
+1. Svelte のシンプルさを活用し、過度なエンジニアリングを避ける
+2. SSR と API ルートを備えたフルスタックアプリケーションには SvelteKit を使用
+3. パフォーマンス最適化のために Web Vitals（LCP、FID、CLS）を優先
+4. 設定管理には環境変数を使用
+5. コンポーネント構成と状態管理には Svelte のベストプラクティスに従う
+6. 複数のプラットフォームでテストしてクロスブラウザ互換性を確保
+7. Svelte と SvelteKit のバージョンを最新に保つ
+
+ドキュメント
+
+- Svelte 5 Runes: https://svelte-5-preview.vercel.app/docs/runes
+- Svelte ドキュメント: https://svelte.dev/docs
+- SvelteKit ドキュメント: https://kit.svelte.dev/docs
+- Paraglide.js ドキュメント: https://inlang.com/m/gerre34r/library-inlang-paraglideJs/usage
+
+コンポーネント、国際化、ベストプラクティスに関する詳細情報については、Svelte、SvelteKit、Paraglide.js のドキュメントを参照してください。

@@ -1,0 +1,85 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+以下のステップでPandaCSSとvanilla-extractを比較するための小規模なECサイト用アプリケーションをSvelte 5（SvelteKit）とTypeScriptを使って構築します。
+
+背景と目的
+
+PandaCSSとvanilla-extractは、どちらもスタイルを型安全かつ効率的に管理するためのCSSフレームワークです。しかし、開発体験・柔軟性・テーマ管理・パフォーマンスといった点で設計思想が異なっており、プロジェクトの規模や要件に応じて適切な選定が求められます。
+
+本比較では、実際に両フレームワークを用いて同一仕様の小規模なECサイトアプリケーションを構築し、以下の観点で評価を行うことを目的としています。
+
+スタイリングの柔軟性（自由度、適用のしやすさ）
+
+パフォーマンス（静的CSS生成、初期表示速度、ランタイムコスト）
+
+テーマ管理（ダークモードやトークンの切り替えのしやすさ）
+
+保守性（型安全性、スタイルの分離性、再利用性）
+
+これにより、プロジェクトの性質に応じたCSSフレームワーク選定の判断材料を提供することを目指します。
+
+なお、このプロジェクトはPanda CSSを使用しており、vanilla-extractのコードを書くことは禁止されています。
+
+1. プロジェクトの初期設定
+
+npm create svelte@latest ec-app
+cd ec-app
+npm install
+npm install -D typescript @sveltejs/adapter-auto
+
+2. PandaCSSの導入
+
+npm install @pandacss/dev @pandacss/types
+npx panda init
+
+panda.config.jsonを設定してトークンやテーマを管理します。
+
+3. vanilla-extractの導入
+
+npm install @vanilla-extract/css @vanilla-extract/vite-plugin
+
+vite.config.tsを更新してvanilla-extractのプラグインを追加します。
+
+4. アプリケーションの基本構造作成
+
+商品一覧ページ
+
+商品詳細ページ
+
+カートページ
+
+5. 各フレームワークでコンポーネントを作成
+
+PandaCSS版
+
+src/lib/components/ProductCard.svelteを作成し、JSONベースのテーマを使ってスタイルを適用。
+
+vanilla-extract版
+
+src/lib/components/ProductCard.css.tsを作成し、TypeScriptベースでスタイルを適用。
+
+6. テーマ管理
+
+共通のテーマトークンを設定し、ダークモード切替を実装します。
+
+7. パフォーマンス計測
+
+Lighthouseを使用して初期ロードパフォーマンス、CSSのサイズ、ランタイム時の挙動を計測。
+
+8. 保守性評価
+
+型安全性
+
+スタイルの再利用性
+
+開発者体験
+
+9. 比較結果のまとめ
+
+両フレームワークのメリット・デメリットを一覧化し、最終的な推奨事項を提示します。
+
+次回は具体的な実装コードを作成し、実際に動作確認を進めていきます。
+
