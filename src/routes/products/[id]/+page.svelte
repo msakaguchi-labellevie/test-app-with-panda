@@ -2,6 +2,7 @@
 	import { css } from 'styled-system/css';
 	import { flex, container } from 'styled-system/patterns';
 	import type { PageData } from './$types';
+	import { button } from 'styled-system/recipes';
 
 	export let data: PageData;
 	const { product } = data;
@@ -57,21 +58,7 @@
 					/>
 				</label>
 			</div>
-
-			<button
-				class={css({
-					w: 'full',
-					bg: 'blue.500',
-					color: 'white',
-					py: '3',
-					px: '6',
-					borderRadius: 'md',
-					fontWeight: 'bold',
-					_hover: { bg: 'blue.600' }
-				})}
-			>
-				カートに追加
-			</button>
+			<button class={button({ variant: 'primary', isFullWidth: true })}>カートに追加</button>
 		</div>
 	</div>
 </div>
